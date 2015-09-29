@@ -1,7 +1,7 @@
 ﻿using System.ServiceModel;
 using System.ServiceModel.Web;
 
-namespace GoldMine.MainServer
+namespace GoldMine.MainServer.ServiceInterface
 {
     [ServiceContract]
     public interface IConnectionTest

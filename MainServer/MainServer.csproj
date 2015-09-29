@@ -47,8 +47,9 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="IService.cs" />
+    <Compile Include="ServiceInterface\IConnectionTest.cs" />
     <Compile Include="Service.cs" />
+    <Compile Include="ServiceInterface\IRegister.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -58,7 +59,12 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\DataModel\DataModel.csproj">
+      <Project>{929674ed-8ab0-49fb-b85e-d8adcb45e845}</Project>
+      <Name>DataModel</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
