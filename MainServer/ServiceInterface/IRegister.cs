@@ -1,4 +1,5 @@
-﻿using System.ServiceModel;
+﻿using GoldMine.DataModel.Request;
+using System.ServiceModel;
 using System.ServiceModel.Web;
 
 namespace GoldMine.MainServer.ServiceInterface
@@ -6,7 +7,9 @@ namespace GoldMine.MainServer.ServiceInterface
     [ServiceContract]
     public interface IRegister
     {
-        [WebGet(UriTemplate = "register/{userId}/{type}")]
-        void Register(string userId, string type);
+		[WebGet(UriTemplate = "register", 
+			RequestFormat = WebMessageFormat.Json,
+			ResponseFormat = WebMessageFormat.Json)]
+		void Register(RequestRegister request);
     }
 }

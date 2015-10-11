@@ -14,4 +14,13 @@ namespace GoldMine.DataModel.Request
         [EnumMember]
         Both
     }
+
+	[DataContract]
+	public class RequestRegister
+	{
+		[DataMember(Order = 1)]
+		public string userId;
+		[DataMember(Order = 2)]
+		public ProtocolType protocol;
+	}
 }

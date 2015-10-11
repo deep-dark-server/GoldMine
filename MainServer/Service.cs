@@ -11,15 +11,12 @@ namespace GoldMine.MainServer
             return "Hello World";
         }
 
-        public void Register(string userId, string type)
+        public void Register(RequestRegister request)
         {
-            short uid = short.Parse(userId); 
-            ProtocolType pType = (ProtocolType)(int.Parse(type));
-
             // TODO implement this
             Console.WriteLine("Entered Register with Params");
-            Console.WriteLine(uid);
-            Console.WriteLine(pType);
+			Console.WriteLine(request.userId);
+			Console.WriteLine(request.protocol);
             Console.WriteLine("End Register");
         }
     }
