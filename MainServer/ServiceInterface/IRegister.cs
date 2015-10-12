@@ -1,4 +1,5 @@
 ﻿using GoldMine.DataModel.Request;
+using GoldMine.DataModel.Response;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 
@@ -10,6 +11,6 @@ namespace GoldMine.MainServer.ServiceInterface
 		[WebGet(UriTemplate = "register", 
 			RequestFormat = WebMessageFormat.Json,
 			ResponseFormat = WebMessageFormat.Json)]
-		void Register(RequestRegister request);
+        Response Register(RequestRegister request);
     }
 }
