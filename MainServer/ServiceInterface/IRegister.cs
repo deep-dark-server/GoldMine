@@ -8,9 +8,9 @@ namespace GoldMine.MainServer.ServiceInterface
     [ServiceContract]
     public interface IRegister
     {
-		[WebGet(UriTemplate = "register", 
-			RequestFormat = WebMessageFormat.Json,
-			ResponseFormat = WebMessageFormat.Json)]
+        [WebGet(UriTemplate = "register",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json)]
         Response Register(RequestRegister request);
     }
 }
