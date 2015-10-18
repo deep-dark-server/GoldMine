@@ -1,22 +1,19 @@
 ﻿using Amazon.DynamoDBv2;
-using GoldMine.OperationTool;
+using GoldMine.DataModel;
 using ServerBase;
+using System;
 
 namespace GoldMine.OperationTool
 {
+    [PostAppInit]
     public class DynamoDBClient : Singleton<AmazonDynamoDBClient>
     {
-        static DynamoDBClient()
+        public void PostAppInit()
         {
+            Console.WriteLine("WarmUp: " + Instance.ToString());
             if (DBConnect.Default.UseLocalDB)
             {
-                DynamoDBClient.SetInitFunc(() =>
-                {
-                    var config = new AmazonDynamoDBConfig();
-                    config.ServiceURL = DBConnect.Default.LocalDBAddress;
-                    AmazonDynamoDBClient client = new AmazonDynamoDBClient(config);
-                    return client;
-                });
+                Instance.Config.ServiceURL = DBConnect.Default.LocalDBAddress;
             }
         }
     }

@@ -70,6 +70,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DataModel\DataModel.csproj">
+      <Project>{929674ed-8ab0-49fb-b85e-d8adcb45e845}</Project>
+      <Name>DataModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ServerBase\ServerBase.csproj">
       <Project>{ff741b1e-ec9f-4154-8afc-6a8045943136}</Project>
       <Name>ServerBase</Name>
