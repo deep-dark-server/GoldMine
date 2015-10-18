@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ServiceModel;
+using System.Threading;
 
 namespace GoldMine.MainServer
 {
@@ -7,7 +8,7 @@ namespace GoldMine.MainServer
     {
         private static void Main(string[] args)
         {
-            using (ServiceHost host = new ServiceHost(typeof(GoldMineService)))
+            using (ServiceHost host = new ServiceHost(typeof(GoldMineWebService)))
             {
                 host.Open();
                 Console.ReadLine();

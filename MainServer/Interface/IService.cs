@@ -3,14 +3,15 @@ using GoldMine.DataModel.Response;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 
-namespace GoldMine.MainServer.ServiceInterface
+namespace GoldMine.MainServer.Interface
 {
     [ServiceContract]
-    public interface IRegister
+    public interface IService
     {
         [WebGet(UriTemplate = "register",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json)]
-        Response Register(RequestRegister request);
+        [FaultContract(typeof(ResponseError))]
+        ResponseResult<bool> Register(RequestRegister request);
     }
 }
