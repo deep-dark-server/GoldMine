@@ -41,10 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ErrorCodeException.cs" />
+    <Compile Include="PostAppInit.cs" />
     <Compile Include="Request\Register.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Response\Error.cs" />
-    <Compile Include="Response\Response.cs" />
     <Compile Include="Response\Result.cs" />
   </ItemGroup>
   <ItemGroup />

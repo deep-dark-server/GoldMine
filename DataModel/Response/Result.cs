@@ -3,7 +3,7 @@
 namespace GoldMine.DataModel.Response
 {
     [DataContract]
-    public class ResponseResult<ValueT> : Response
+    public class ResponseResult<ValueT>
     {
         public ResponseResult(ValueT result)
         {
