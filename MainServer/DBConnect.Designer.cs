@@ -25,18 +25,6 @@ namespace GoldMine.MainServer {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool UseLocalDB {
-            get {
-                return ((bool)(this["UseLocalDB"]));
-            }
-            set {
-                this["UseLocalDB"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string LocalDBAddress {
             get {
@@ -44,6 +32,18 @@ namespace GoldMine.MainServer {
             }
             set {
                 this["LocalDBAddress"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool UseLocalDB {
+            get {
+                return ((bool)(this["UseLocalDB"]));
+            }
+            set {
+                this["UseLocalDB"] = value;
             }
         }
     }
