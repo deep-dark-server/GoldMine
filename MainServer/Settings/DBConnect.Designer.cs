@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GoldMine.MainServer {
+namespace GoldMine.MainServer.Settings {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -23,27 +23,21 @@ namespace GoldMine.MainServer {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string LocalDBAddress {
             get {
                 return ((string)(this["LocalDBAddress"]));
             }
-            set {
-                this["LocalDBAddress"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool UseLocalDB {
             get {
                 return ((bool)(this["UseLocalDB"]));
-            }
-            set {
-                this["UseLocalDB"] = value;
             }
         }
     }
