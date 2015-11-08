@@ -2,7 +2,6 @@
 
 namespace GoldMine.DataModel.Response
 {
-    [DataContract]
     public class ResponseResult<ValueT>
     {
         public ResponseResult(ValueT result)
@@ -10,7 +9,6 @@ namespace GoldMine.DataModel.Response
             this.result = result;
         }
 
-        [DataMember]
         public ValueT result;
     }
 }
