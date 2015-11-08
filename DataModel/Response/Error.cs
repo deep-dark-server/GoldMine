@@ -1,10 +1,7 @@
-﻿using System;
-using System.Net;
-using System.Runtime.Serialization;
+﻿using System.Net;
 
 namespace GoldMine.DataModel.Response
 {
-    [DataContract]
     public class ResponseError
     {
         public ResponseError()
@@ -21,8 +18,7 @@ namespace GoldMine.DataModel.Response
         {
             this.error = (int)code;
         }
-        
-        [DataMember]
+
         public int error;
     }
 }

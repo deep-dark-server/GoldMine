@@ -2,8 +2,6 @@
 using GoldMine.DataModel.Response;
 using GoldMine.MainServer.Interface;
 using System;
-using System.Net;
-using System.ServiceModel.Web;
 
 namespace GoldMine.MainServer
 {
@@ -24,18 +22,9 @@ namespace GoldMine.MainServer
             return new ResponseResult<bool>(true);
         }
 
-        public T ProcessWebRequest<T>(Func<T> Process)
+        public void OnException(Exception ex)
         {
-            try
-            {
-                return Process();
-            }
-            catch (Exception ex)
-            {
-                HttpStatusCode code = HttpStatusCode.InternalServerError;
-                Console.WriteLine(ex.ToString());
-                throw new WebFaultException<ResponseError>(new ResponseError(code), code);
-            }
+
         }
     }
 }

@@ -1,6 +1,8 @@
-﻿using System;
+﻿using GoldMine.MainServer.Settings;
+using Nancy.Hosting.Wcf;
+using System;
 using System.ServiceModel;
-using System.Threading;
+using System.ServiceModel.Web;
 
 namespace GoldMine.MainServer
 {
@@ -8,8 +10,15 @@ namespace GoldMine.MainServer
     {
         private static void Main(string[] args)
         {
-            using (ServiceHost host = new ServiceHost(typeof(GoldMineWebService)))
+            using (WebServiceHost host =
+                new WebServiceHost(
+                    new NancyWcfGenericService(),
+                    new Uri(HostSetting.Default.WebHostAddress)))
             {
+                host.AddServiceEndpoint(
+                    typeof(NancyWcfGenericService),
+                    new WebHttpBinding(),
+                    "");
                 host.Open();
                 Console.ReadLine();
                 host.Close();

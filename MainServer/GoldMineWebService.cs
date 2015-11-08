@@ -1,21 +1,43 @@
-﻿using GoldMine.DataModel.Request;
+﻿using GoldMine.DataModel;
+using GoldMine.DataModel.Request;
 using GoldMine.DataModel.Response;
-using GoldMine.MainServer.Interface;
+using Nancy;
+using Nancy.Bootstrapper;
+using Nancy.ModelBinding;
+using ServerBase;
 
 namespace GoldMine.MainServer
 {
-    public class GoldMineWebService : IConnectionTest, IService
+    public class GoldMineWebService : NancyModule, IApplicationStartup
     {
-        private ServiceLogic logic = new ServiceLogic();
-
-        public string HelloWorld()
+        public GoldMineWebService()
         {
-            return logic.ProcessWebRequest(() => logic.HelloWorld());
+            Get["/helloworld"] = _ =>
+            {
+                return Response.AsJson(logic.HelloWorld());
+            };
+
+            Post["/register"] = _ =>
+            {
+                var request = this.Bind<RequestRegister>();
+                return Response.AsJson(logic.Register(request));
+            };
         }
 
-        public ResponseResult<bool> Register(RequestRegister request)
+        public void Initialize(IPipelines pipelines)
         {
-            return logic.ProcessWebRequest(() => logic.Register(request));
+            pipelines.OnError += OnException;
         }
+
+        private dynamic OnException(NancyContext ctx, System.Exception ex)
+        {
+            logic.OnException(ex);
+            int code = ex.GetExceptionCode();
+            var response = Response.AsJson(new ResponseError(code));
+            response.StatusCode = (HttpStatusCode)code;
+            return response;
+        }
+
+        private ServiceLogic logic = Singleton<ServiceLogic>.Instance;
     }
 }
