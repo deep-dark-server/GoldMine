@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ServerBase
+namespace GoldMine.ServerBase.Util
 {
     public class Singleton<T>
     {

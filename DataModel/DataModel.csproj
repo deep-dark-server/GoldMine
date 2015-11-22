@@ -42,8 +42,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExceptionCode.cs" />
-    <Compile Include="PostAppInit.cs" />
     <Compile Include="Request\Register.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Response\Error.cs" />
