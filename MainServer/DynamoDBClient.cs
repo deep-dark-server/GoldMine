@@ -1,9 +1,10 @@
 ﻿using Amazon.DynamoDBv2;
-using GoldMine.DataModel;
-using GoldMine.MainServer;
+using GoldMine.MainServer.Settings;
+using GoldMine.ServerBase.Init;
+using GoldMine.ServerBase.Util;
 using System;
 
-namespace ServerBase
+namespace GoldMine.MainServer
 {
     [PostAppInit]
     public class DynamoDBClient : Singleton<AmazonDynamoDBClient>
