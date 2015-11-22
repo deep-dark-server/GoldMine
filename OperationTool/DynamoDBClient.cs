@@ -1,6 +1,6 @@
 ﻿using Amazon.DynamoDBv2;
-using GoldMine.DataModel;
-using ServerBase;
+using GoldMine.ServerBase.Init;
+using GoldMine.ServerBase.Util;
 using System;
 
 namespace GoldMine.OperationTool
