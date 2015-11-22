@@ -1,10 +1,9 @@
-﻿using GoldMine.DataModel;
-using GoldMine.DataModel.Request;
+﻿using GoldMine.DataModel.Request;
 using GoldMine.DataModel.Response;
+using GoldMine.ServerBase.Util;
 using Nancy;
 using Nancy.Bootstrapper;
 using Nancy.ModelBinding;
-using ServerBase;
 
 namespace GoldMine.MainServer
 {
