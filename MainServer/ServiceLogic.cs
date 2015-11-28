@@ -2,6 +2,7 @@
 using GoldMine.DataModel;
 using GoldMine.DataModel.Request;
 using GoldMine.DataModel.Response;
+using GoldMine.MainServer.Exceptions;
 using GoldMine.MainServer.Interface;
 using System;
 
@@ -24,6 +25,10 @@ namespace GoldMine.MainServer
 
             using (var ctx = new DynamoDBContext(DynamoDBClient.Instance))
             {
+                User userRegistered = ctx.Load<User>(request.userId);
+                if (userRegistered == null)
+                    throw new UnauthorizedUserException("Register host fail: Unauthorized User(ID Not Issued)");
+
                 User user = new User()
                 {
                    id = request.userId,
