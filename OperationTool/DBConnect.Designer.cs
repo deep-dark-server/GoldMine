@@ -23,27 +23,21 @@ namespace GoldMine.OperationTool {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool UseLocalDB {
             get {
                 return ((bool)(this["UseLocalDB"]));
             }
-            set {
-                this["UseLocalDB"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string LocalDBAddress {
             get {
                 return ((string)(this["LocalDBAddress"]));
-            }
-            set {
-                this["LocalDBAddress"] = value;
             }
         }
     }
