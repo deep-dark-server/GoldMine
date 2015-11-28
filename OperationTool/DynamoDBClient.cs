@@ -8,7 +8,7 @@ namespace GoldMine.OperationTool
     [PostAppInit]
     public class DynamoDBClient : Singleton<AmazonDynamoDBClient>
     {
-        public void PostAppInit()
+        public static void PostAppInit()
         {
             Console.WriteLine("WarmUp: " + Instance.ToString());
             if (DBConnect.Default.UseLocalDB)
