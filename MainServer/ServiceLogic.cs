@@ -1,4 +1,6 @@
-﻿using GoldMine.DataModel.Request;
+﻿using Amazon.DynamoDBv2.DataModel;
+using GoldMine.DataModel;
+using GoldMine.DataModel.Request;
 using GoldMine.DataModel.Response;
 using GoldMine.MainServer.Interface;
 using System;
@@ -12,13 +14,25 @@ namespace GoldMine.MainServer
             return "Hello World";
         }
 
-        public ResponseResult<bool> Register(RequestRegister request)
+        public ResponseResult<bool> Register(RequestRegister request, string hostAddress)
         {
-            // TODO implement validation, db write logic..
             Console.WriteLine("Entered Register with Params");
             Console.WriteLine(request.userId);
             Console.WriteLine(request.protocol);
+            Console.WriteLine(hostAddress);
             Console.WriteLine("End Register");
+
+            using (var ctx = new DynamoDBContext(DynamoDBClient.Instance))
+            {
+                User user = new User()
+                {
+                   id = request.userId,
+                   server_host = hostAddress,
+                   protocol = request.protocol
+                };
+                ctx.Save(user);
+            }
+
             return new ResponseResult<bool>(true);
         }
 
