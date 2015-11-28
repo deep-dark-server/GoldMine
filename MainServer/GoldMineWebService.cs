@@ -19,7 +19,7 @@ namespace GoldMine.MainServer
             Post["/register"] = _ =>
             {
                 var request = this.Bind<RequestRegister>();
-                return Response.AsJson(logic.Register(request));
+                return Response.AsJson(logic.Register(request, this.Request.UserHostAddress));
             };
         }
 

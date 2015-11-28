@@ -7,6 +7,6 @@ namespace GoldMine.MainServer.Interface
 {
     public interface IService
     {
-        ResponseResult<bool> Register(RequestRegister request);
+        ResponseResult<bool> Register(RequestRegister request, string hostAddress);
     }
 }
