@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Command.cs" />
+    <Compile Include="Commands\AddUser.cs" />
     <Compile Include="DBConnect.Designer.cs">
       <DependentUpon>DBConnect.settings</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -79,9 +80,7 @@
       <Name>ServerBase</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Commands\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
