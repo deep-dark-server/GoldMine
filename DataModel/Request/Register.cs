@@ -1,6 +1,6 @@
 ﻿namespace GoldMine.DataModel.Request
 {
-    public enum ProtocolType
+    public enum ProtocolType : byte
     {
         Http = 0,
         Binary,
@@ -9,7 +9,7 @@
 
 	public class RequestRegister
 	{
-		public string userId;
+		public short userId;
 		public ProtocolType protocol;
 	}
 }
