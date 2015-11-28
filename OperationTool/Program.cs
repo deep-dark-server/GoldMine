@@ -1,4 +1,5 @@
 ﻿using GoldMine.ServerBase.Init;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,8 @@ namespace GoldMine.OperationTool
 {
     public class Program
     {
+        public readonly static ILog LogError = LogManager.GetLogger("Error");
+
         public static bool IsInteractive
         {
             get; private set;
@@ -106,7 +109,7 @@ namespace GoldMine.OperationTool
                 {
                     Console.Clear();
                     Console.WriteLine("There were some errors while running command {0}", command.ToString());
-                    Console.WriteLine(e.ToString());
+                    LogError.Error(e.ToString());
                     ToMainMenu();
                 }
                 return true;
