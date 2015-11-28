@@ -25,19 +25,19 @@ namespace GoldMine.MainServer.Settings {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string LocalDBAddress {
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool UseLocalDB {
             get {
-                return ((string)(this["LocalDBAddress"]));
+                return ((bool)(this["UseLocalDB"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool UseLocalDB {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LocalDBAddress {
             get {
-                return ((bool)(this["UseLocalDB"]));
+                return ((string)(this["LocalDBAddress"]));
             }
         }
     }
