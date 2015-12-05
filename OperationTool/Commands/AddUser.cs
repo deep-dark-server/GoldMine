@@ -1,6 +1,7 @@
 ﻿using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.Model;
+using Gnu.Getopt;
 using GoldMine.DataModel;
 using System;
 
@@ -8,6 +9,16 @@ namespace GoldMine.OperationTool.Commands
 {
     public class AddUser : Command
     {
+        private LongOpt cliOption = new LongOpt("adduser", Argument.No, null, 'a');
+
+        public override LongOpt CliOption
+        {
+            get
+            {
+                return cliOption;
+            }
+        }
+
         public override ConsoleKey InvokeKey
         {
             get
