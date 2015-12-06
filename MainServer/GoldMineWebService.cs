@@ -31,9 +31,9 @@ namespace GoldMine.MainServer
         private dynamic OnException(NancyContext ctx, System.Exception ex)
         {
             logic.OnException(ex);
-            int code = ex.GetExceptionCode();
-            var response = Response.AsJson(new ResponseError(code));
-            response.StatusCode = (HttpStatusCode)code;
+            var code = ExceptionCode.GetFromException(ex);
+            var response = Response.AsJson(new ResponseError(code.errorCode));
+            response.StatusCode = (HttpStatusCode)code.httpStatusCode;
             return response;
         }
 

@@ -1,17 +1,32 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Net;
+using GoldMine.ServerBase.Exceptions;
+using System.Runtime.InteropServices;
+using System;
 
 namespace GoldMine.ServerBase.Util
 {
-    public static class ExceptionCode
+    public class ExceptionCode
     {
-        private const int DefaultErrorCode = 500;
+        private const int DefaultErrorCode = (int)HttpStatusCode.InternalServerError;
 
-        public static int GetExceptionCode(this System.Exception ex)
+        public int httpStatusCode { get; private set; }
+        public int errorCode { get; private set; }
+
+        public static ExceptionCode GetFromException(System.Exception ex)
         {
-            if (ex is ExternalException)
-                return (ex as ExternalException).ErrorCode;
+            ExceptionCode code = new ExceptionCode()
+            {
+                httpStatusCode = DefaultErrorCode,
+                errorCode = DefaultErrorCode
+            };
 
-            return DefaultErrorCode;
+            if (ex is CustomException)
+                code.httpStatusCode = CustomException.StatusCode;
+
+            if (ex is ExternalException)
+                code.errorCode = ((ExternalException)ex).ErrorCode;
+
+            return code;
         }
     }
 }

@@ -2,8 +2,8 @@
 using GoldMine.DataModel;
 using GoldMine.DataModel.Request;
 using GoldMine.DataModel.Response;
-using GoldMine.MainServer.Exceptions;
 using GoldMine.MainServer.Interface;
+using GoldMine.ServerBase.Exceptions;
 using System;
 
 namespace GoldMine.MainServer
