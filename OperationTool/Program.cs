@@ -18,7 +18,6 @@ namespace GoldMine.OperationTool
         }
         private bool isExit = false;
         private Dictionary<ConsoleKey, Command> commands = new Dictionary<ConsoleKey, Command>();
-        private List<LongOpt> opts = new List<LongOpt>();
         private Dictionary<int, Command> optDict = new Dictionary<int, Command>();
 
         private static void Main(string[] args)
@@ -31,7 +30,7 @@ namespace GoldMine.OperationTool
 
         private void ProgramMain(string[] args)
         {
-            Getopt getOpt = new Getopt("GoldMineOperation", args, "", opts.ToArray());
+            Getopt getOpt = new Getopt("GoldMineOperation", args, "", optDict.Values.Select(value => value.CliOption).ToArray());
             int c;
             while ((c = getOpt.getopt()) != -1)
             {
@@ -79,7 +78,6 @@ namespace GoldMine.OperationTool
             {
                 var commandObj = (Command)Activator.CreateInstance(type);
                 commands.Add(commandObj.InvokeKey, commandObj);
-                opts.Add(commandObj.CliOption);
                 optDict.Add(commandObj.CliOption.Val, commandObj);
             }
         }
