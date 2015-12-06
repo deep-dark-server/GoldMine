@@ -58,6 +58,7 @@
     <Compile Include="Util\ExceptionCode.cs" />
     <Compile Include="Init\PostAppInit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\LogException.cs" />
     <Compile Include="Util\Singleton.cs" />
   </ItemGroup>
   <ItemGroup>
