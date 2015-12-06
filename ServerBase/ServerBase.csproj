@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exceptions\CustomException.cs" />
+    <Compile Include="Exceptions\LoggedCustomException.cs" />
     <Compile Include="Exceptions\UnauthorizedUserException.cs" />
     <Compile Include="Util\ExceptionCode.cs" />
     <Compile Include="Init\PostAppInit.cs" />
