@@ -10,7 +10,7 @@ namespace GoldMine.ServerBase.Util
     [PostAppInit]
     public static class LogException
     {
-        private class LogInterfaceMethodPair
+        private class LogActionInfo
         {
             public Action<object> Log
             {
@@ -22,7 +22,7 @@ namespace GoldMine.ServerBase.Util
                 get; private set;
             }
 
-            public LogInterfaceMethodPair(ILog logger)
+            public LogActionInfo(ILog logger)
             {
                 this.logger = logger;
                 // TODO compile Logging Method Invocation (.Info / .Error etc) with Expressions api
@@ -41,7 +41,7 @@ namespace GoldMine.ServerBase.Util
         /// <summary>
         /// ErrorLevel to Logger Mapping
         /// </summary>
-        private static readonly Dictionary<Level, LogInterfaceMethodPair> LoggerDictionary = new Dictionary<Level, LogInterfaceMethodPair>();
+        private static readonly Dictionary<Level, LogActionInfo> LogActionDict = new Dictionary<Level, LogActionInfo>();
 
         private static readonly Type CustomExceptionType = typeof(CustomException);
         private static readonly Type LoggedCustomExceptionType = typeof(LoggedCustomException);
@@ -51,7 +51,7 @@ namespace GoldMine.ServerBase.Util
             Level[] usedLogLevels = { Level.Info, Level.Warn, Level.Error, Level.Fatal };
             foreach (var level in usedLogLevels)
             {
-                LoggerDictionary[level] = new LogInterfaceMethodPair(LogManager.GetLogger(level.Name));
+                LogActionDict[level] = new LogActionInfo(LogManager.GetLogger(level.Name));
             }
             // TODO load fatal error handled types from app.config
         }
@@ -73,7 +73,7 @@ namespace GoldMine.ServerBase.Util
 
         private static void WriteLog(Exception ex, bool logStackTrace)
         {
-            LogInterfaceMethodPair mthdPair = null;
+            LogActionInfo logAction = null;
 
             var exceptionType = ex.GetType();
             if (exceptionType.IsSubclassOf(CustomExceptionType))
@@ -81,25 +81,25 @@ namespace GoldMine.ServerBase.Util
                 if (exceptionType.IsSubclassOf(LoggedCustomExceptionType))
                 {
                     LoggedCustomException logEx = (LoggedCustomException)ex;
-                    mthdPair = LoggerDictionary[logEx.ErrorLevel];
+                    logAction = LogActionDict[logEx.ErrorLevel];
                 }
                 // DO NOTHING for not-logged custom exceptions
             }
             else
             {
                 if (FatalSystemExceptions.Contains(exceptionType))
-                    mthdPair = LoggerDictionary[Level.Fatal];
+                    logAction = LogActionDict[Level.Fatal];
                 else
-                    mthdPair = LoggerDictionary[Level.Error];
+                    logAction = LogActionDict[Level.Error];
             }
 
-            if (mthdPair == null)
+            if (logAction == null)
                 return;
 
             if (logStackTrace)
-                mthdPair.LogWithException(ex.Message, ex);
+                logAction.LogWithException(ex.Message, ex);
             else
-                mthdPair.Log(ex.Message);
+                logAction.Log(ex.Message);
         }
     }
 }
