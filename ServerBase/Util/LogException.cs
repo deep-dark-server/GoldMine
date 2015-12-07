@@ -4,6 +4,7 @@ using log4net;
 using log4net.Core;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace GoldMine.ServerBase.Util
 {
@@ -25,8 +26,26 @@ namespace GoldMine.ServerBase.Util
             public LogActionInfo(ILog logger)
             {
                 this.logger = logger;
-                // TODO compile Logging Method Invocation (.Info / .Error etc) with Expressions api
-                // and save to Log/LogWithException
+
+                var logParam = Expression.Parameter(typeof(object), "objToLog");
+                var expParam = Expression.Parameter(typeof(Exception), "expParam");
+
+                var logMethodInfo = typeof(ILog).GetMethod(this.logger.Logger.Name, new Type[] { typeof(object) });
+                var logWithExceptionMethodInfo = typeof(ILog).GetMethod(this.logger.Logger.Name, new Type[] { typeof(object), typeof(Exception) });
+
+                Log = Expression.Lambda<Action<object>>(
+                    Expression.Call(
+                        Expression.Constant(this.logger, typeof(ILog)),
+                        logMethodInfo,
+                        logParam),
+                    logParam).Compile();
+
+                LogWithException = Expression.Lambda<Action<object, Exception>>(
+                    Expression.Call(
+                        Expression.Constant(this.logger, typeof(ILog)),
+                        logMethodInfo,
+                        logParam, expParam),
+                    logParam, expParam).Compile();
             }
 
             private ILog logger;
