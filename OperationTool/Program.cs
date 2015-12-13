@@ -1,5 +1,6 @@
 ﻿using Gnu.Getopt;
 using GoldMine.ServerBase.Init;
+using GoldMine.ServerBase.Util;
 using log4net;
 using System;
 using System.Collections.Generic;
@@ -32,29 +33,37 @@ namespace GoldMine.OperationTool
         {
             Getopt getOpt = new Getopt("GoldMineOperation", args, "", optDict.Values.Select(value => value.CliOption).ToArray());
             int c;
-            while ((c = getOpt.getopt()) != -1)
+
+            if (args.Length < 1)
             {
-                Command cmd;
-                if (optDict.TryGetValue(c, out cmd))
+                IsInteractive = true;
+                ConsoleKeyInfo keyInfo;
+                while (!isExit)
                 {
-                    IsInteractive = false;
-                    cmd.Run();
-                }
-                else
-                {
-                    IsInteractive = true;
-                    ConsoleKeyInfo keyInfo;
-                    while (!isExit)
+                    PrintMenu();
+                    Console.WriteLine("Press key in [] to perform command, Ctrl+Q to exit");
+                    keyInfo = Console.ReadKey();
+                    if (!ProcessCommand(keyInfo))
                     {
-                        PrintMenu();
-                        Console.WriteLine("Press key in [] to perform command, Ctrl+Q to exit");
-                        keyInfo = Console.ReadKey();
-                        if (!ProcessCommand(keyInfo))
-                        {
-                            Console.Clear();
-                            Console.WriteLine("Invalid Command. (Don't press any key modifiers for command)");
-                            ToMainMenu();
-                        }
+                        Console.Clear();
+                        Console.WriteLine("Invalid Command. (Don't press any key modifiers for command)");
+                        ToMainMenu();
+                    }
+                }
+            }
+            else
+            {
+                IsInteractive = false;
+                while ((c = getOpt.getopt()) != -1)
+                {
+                    Command cmd;
+                    if (optDict.TryGetValue(c, out cmd))
+                    {
+                        cmd.Run();
+                    }
+                    else
+                    {
+                        // TODO run help command
                     }
                 }
             }
