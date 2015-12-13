@@ -30,8 +30,11 @@ namespace GoldMine.ServerBase.Util
                 var logParam = Expression.Parameter(typeof(object), "objToLog");
                 var expParam = Expression.Parameter(typeof(Exception), "expParam");
 
-                var logMethodInfo = typeof(ILog).GetMethod(this.logger.Logger.Name, new Type[] { typeof(object) });
-                var logWithExceptionMethodInfo = typeof(ILog).GetMethod(this.logger.Logger.Name, new Type[] { typeof(object), typeof(Exception) });
+                var firstChar = this.logger.Logger.Name[0];
+                var methodName = Char.ToUpper(firstChar) + this.logger.Logger.Name.TrimStart(firstChar).ToLower();
+
+                var logMethodInfo = typeof(ILog).GetMethod(methodName, new Type[] { typeof(object) });
+                var logWithExceptionMethodInfo = typeof(ILog).GetMethod(methodName, new Type[] { typeof(object), typeof(Exception) });
 
                 Log = Expression.Lambda<Action<object>>(
                     Expression.Call(
@@ -43,7 +46,7 @@ namespace GoldMine.ServerBase.Util
                 LogWithException = Expression.Lambda<Action<object, Exception>>(
                     Expression.Call(
                         Expression.Constant(this.logger, typeof(ILog)),
-                        logMethodInfo,
+                        logWithExceptionMethodInfo,
                         logParam, expParam),
                     logParam, expParam).Compile();
             }
@@ -68,11 +71,14 @@ namespace GoldMine.ServerBase.Util
         public static void PostAppInit()
         {
             Level[] usedLogLevels = { Level.Info, Level.Warn, Level.Error, Level.Fatal };
+            Type[] fatalErrors = { typeof(OutOfMemoryException) };
+
             foreach (var level in usedLogLevels)
-            {
                 LogActionDict[level] = new LogActionInfo(LogManager.GetLogger(level.Name));
-            }
+
             // TODO load fatal error handled types from app.config
+            foreach (var errorType in fatalErrors)
+                FatalSystemExceptions.Add(errorType);
         }
 
         /// <summary>
