@@ -118,7 +118,7 @@ namespace GoldMine.OperationTool
                 catch (Exception e)
                 {
                     Console.Clear();
-                    Console.WriteLine("There were some errors while running command {0}", command.ToString());
+                    Console.WriteLine($"There were some errors while running command {command.ToString()}");
                     LogError.Error(e.ToString());
                     ToMainMenu();
                 }
