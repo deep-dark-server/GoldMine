@@ -14,8 +14,8 @@ namespace GoldMine.OperationTool
             get; private set;
         }
 
-        private bool _isExit = false;
-        private Dictionary<ConsoleKey, Command> commands = new Dictionary<ConsoleKey, Command>();
+        private bool _isExit;
+        private readonly Dictionary<ConsoleKey, Command> _commands = new Dictionary<ConsoleKey, Command>();
 
         private static void Main(string[] args)
         {
@@ -48,7 +48,7 @@ namespace GoldMine.OperationTool
                 var options = new Options();
                 if (!CommandLine.Parser.Default.ParseArguments(args, options)) return;
                 IsInteractive = false;
-                foreach (var cmd in commands.Values.Where(cmd => cmd.IsRunnable(options)))
+                foreach (var cmd in _commands.Values.Where(cmd => cmd.IsRunnable(options)))
                 {
                     cmd.Run();
                 }
@@ -72,7 +72,7 @@ namespace GoldMine.OperationTool
             foreach (var type in types)
             {
                 var commandObj = (Command)Activator.CreateInstance(type);
-                commands.Add(commandObj.InvokeKey, commandObj);
+                _commands.Add(commandObj.InvokeKey, commandObj);
             }
         }
 
@@ -80,7 +80,7 @@ namespace GoldMine.OperationTool
         {
             Console.Clear();
             Console.WriteLine("== Menu ==");
-            foreach (var command in commands)
+            foreach (var command in _commands)
             {
                 Console.Write("[");
                 Console.Write(command.Key);
@@ -104,9 +104,9 @@ namespace GoldMine.OperationTool
                 return false;
             }
 
-            if (commands.ContainsKey(key.Key))
+            if (_commands.ContainsKey(key.Key))
             {
-                var command = commands[key.Key];
+                var command = _commands[key.Key];
 
                 try
                 {
