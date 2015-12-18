@@ -1,6 +1,4 @@
-﻿using Gnu.Getopt;
-using GoldMine.ServerBase.Init;
-using GoldMine.ServerBase.Util;
+﻿using GoldMine.ServerBase.Init;
 using log4net;
 using System;
 using System.Collections.Generic;
@@ -11,60 +9,50 @@ namespace GoldMine.OperationTool
 {
     public class Program
     {
-        public readonly static ILog LogError = LogManager.GetLogger("Error");
+        public static readonly ILog LogError = LogManager.GetLogger("Error");
 
         public static bool IsInteractive
         {
             get; private set;
         }
-        private bool isExit = false;
+
+        private bool _isExit = false;
         private Dictionary<ConsoleKey, Command> commands = new Dictionary<ConsoleKey, Command>();
-        private Dictionary<int, Command> optDict = new Dictionary<int, Command>();
 
         private static void Main(string[] args)
         {
             PostAppInit.Do();
-            Program pg = new Program();
+            var pg = new Program();
             pg.LoadCommands();
             pg.ProgramMain(args);
         }
 
         private void ProgramMain(string[] args)
         {
-            Getopt getOpt = new Getopt("GoldMineOperation", args, "", optDict.Values.Select(value => value.CliOption).ToArray());
-            int c;
-
             if (args.Length < 1)
             {
                 IsInteractive = true;
-                ConsoleKeyInfo keyInfo;
-                while (!isExit)
+                while (!_isExit)
                 {
                     PrintMenu();
                     Console.WriteLine("Press key in [] to perform command, Ctrl+Q to exit");
-                    keyInfo = Console.ReadKey();
-                    if (!ProcessCommand(keyInfo))
-                    {
-                        Console.Clear();
-                        Console.WriteLine("Invalid Command. (Don't press any key modifiers for command)");
-                        ToMainMenu();
-                    }
+                    var keyInfo = Console.ReadKey();
+
+                    if (ProcessCommand(keyInfo)) continue;
+
+                    Console.Clear();
+                    Console.WriteLine("Invalid Command. (Don't press any key modifiers for command)");
+                    ToMainMenu();
                 }
             }
             else
             {
+                var options = new Options();
+                if (!CommandLine.Parser.Default.ParseArguments(args, options)) return;
                 IsInteractive = false;
-                while ((c = getOpt.getopt()) != -1)
+                foreach (var cmd in commands.Values.Where(cmd => cmd.IsRunnable(options)))
                 {
-                    Command cmd;
-                    if (optDict.TryGetValue(c, out cmd))
-                    {
-                        cmd.Run();
-                    }
-                    else
-                    {
-                        // TODO run help command
-                    }
+                    cmd.Run();
                 }
             }
         }
@@ -87,7 +75,6 @@ namespace GoldMine.OperationTool
             {
                 var commandObj = (Command)Activator.CreateInstance(type);
                 commands.Add(commandObj.InvokeKey, commandObj);
-                optDict.Add(commandObj.CliOption.Val, commandObj);
             }
         }
 
@@ -110,12 +97,9 @@ namespace GoldMine.OperationTool
         {
             if (key.Modifiers.HasFlag(ConsoleModifiers.Control))
             {
-                if (key.Key == ConsoleKey.Q)
-                {
-                    isExit = true;
-                    return true;
-                }
-                return false;
+                if (key.Key != ConsoleKey.Q) return false;
+                _isExit = true;
+                return true;
             }
             else if (key.Modifiers.HasFlag(ConsoleModifiers.Alt) || key.Modifiers.HasFlag(ConsoleModifiers.Shift))
             {
