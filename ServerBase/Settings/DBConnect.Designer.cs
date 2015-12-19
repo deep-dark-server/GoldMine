@@ -8,16 +8,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GoldMine.MainServer.Settings {
+namespace GoldMine.ServerBase.Settings {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "14.0.0.0")]
-    internal sealed partial class HostSetting : global::System.Configuration.ApplicationSettingsBase {
+    public sealed partial class DBConnect : global::System.Configuration.ApplicationSettingsBase {
         
-        private static HostSetting defaultInstance = ((HostSetting)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new HostSetting())));
+        private static DBConnect defaultInstance = ((DBConnect)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new DBConnect())));
         
-        public static HostSetting Default {
+        public static DBConnect Default {
             get {
                 return defaultInstance;
             }
@@ -25,10 +25,19 @@ namespace GoldMine.MainServer.Settings {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string WebHostAddress {
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool UseLocalDB {
             get {
-                return ((string)(this["WebHostAddress"]));
+                return ((bool)(this["UseLocalDB"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LocalDBAddress {
+            get {
+                return ((string)(this["LocalDBAddress"]));
             }
         }
     }

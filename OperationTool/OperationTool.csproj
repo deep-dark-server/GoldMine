@@ -13,6 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
+    <AppCfgType>App</AppCfgType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -62,22 +63,11 @@
   <ItemGroup>
     <Compile Include="Command.cs" />
     <Compile Include="Commands\AddUser.cs" />
-    <Compile Include="DBConnect.Designer.cs">
-      <DependentUpon>DBConnect.settings</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="DynamoDBClient.cs" />
     <Compile Include="Options.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="DBConnect.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>DBConnect.Designer.cs</LastGenOutput>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -96,7 +86,8 @@
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
-  <Target Name="AfterBuild">
-  </Target>
   -->
+  <Target Name="AfterBuild">
+    <Copy SourceFiles="$(SolutionDir)\$(AppCfgType).config.tmp" DestinationFiles="$(OutDir)$(AssemblyName)$(TargetExt).config" />
+  </Target>
 </Project>

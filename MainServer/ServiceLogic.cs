@@ -3,6 +3,7 @@ using GoldMine.DataModel;
 using GoldMine.DataModel.Request;
 using GoldMine.DataModel.Response;
 using GoldMine.MainServer.Interface;
+using GoldMine.ServerBase;
 using GoldMine.ServerBase.Exceptions;
 using System;
 
@@ -31,9 +32,9 @@ namespace GoldMine.MainServer
 
                 User user = new User()
                 {
-                   id = request.userId,
-                   server_host = hostAddress,
-                   protocol = request.protocol
+                    id = request.userId,
+                    server_host = hostAddress,
+                    protocol = request.protocol
                 };
                 ctx.Save(user);
             }
@@ -43,7 +44,6 @@ namespace GoldMine.MainServer
 
         public void OnException(Exception ex)
         {
-
         }
     }
 }

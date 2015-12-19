@@ -2,6 +2,7 @@
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.Model;
 using GoldMine.DataModel;
+using GoldMine.ServerBase;
 using System;
 
 namespace GoldMine.OperationTool.Commands

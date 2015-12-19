@@ -1,5 +1,5 @@
-﻿using GoldMine.MainServer.Settings;
-using GoldMine.ServerBase.Init;
+﻿using GoldMine.ServerBase.Init;
+using GoldMine.ServerBase.Settings.MainServer;
 using Nancy.Hosting.Wcf;
 using System;
 using System.ServiceModel;

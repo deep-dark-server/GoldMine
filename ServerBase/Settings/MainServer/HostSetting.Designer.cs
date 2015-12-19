@@ -8,16 +8,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GoldMine.OperationTool {
+namespace GoldMine.ServerBase.Settings.MainServer {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "14.0.0.0")]
-    internal sealed partial class DBConnect : global::System.Configuration.ApplicationSettingsBase {
+    public sealed partial class HostSetting : global::System.Configuration.ApplicationSettingsBase {
         
-        private static DBConnect defaultInstance = ((DBConnect)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new DBConnect())));
+        private static HostSetting defaultInstance = ((HostSetting)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new HostSetting())));
         
-        public static DBConnect Default {
+        public static HostSetting Default {
             get {
                 return defaultInstance;
             }
@@ -25,19 +25,10 @@ namespace GoldMine.OperationTool {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool UseLocalDB {
-            get {
-                return ((bool)(this["UseLocalDB"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string LocalDBAddress {
+        public string WebHostAddress {
             get {
-                return ((string)(this["LocalDBAddress"]));
+                return ((string)(this["WebHostAddress"]));
             }
         }
     }
