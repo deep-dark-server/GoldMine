@@ -40,5 +40,14 @@ namespace GoldMine.ServerBase.Settings {
                 return ((string)(this["LocalDBAddress"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool UseRedis {
+            get {
+                return ((bool)(this["UseRedis"]));
+            }
+        }
     }
 }

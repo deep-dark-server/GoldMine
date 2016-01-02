@@ -1,4 +1,5 @@
-﻿using StackExchange.Redis;
+﻿using GoldMine.ServerBase.Settings;
+using StackExchange.Redis;
 using System;
 
 namespace GoldMine.ServerBase.Redis
@@ -14,6 +15,9 @@ namespace GoldMine.ServerBase.Redis
 
         public RedisClient(string hostAndPort)
         {
+            if (!DBConnect.Default.UseRedis)
+                return;
+
             Redis = ConnectionMultiplexer.Connect(hostAndPort);
             UpdateConnection();
 
