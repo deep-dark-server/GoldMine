@@ -1,13 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainServer", "MainServer\MainServer.csproj", "{D93FA765-1553-4C53-8E03-9E05ABB20818}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataModel", "DataModel\DataModel.csproj", "{929674ED-8AB0-49FB-B85E-D8ADCB45E845}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerBase", "ServerBase\ServerBase.csproj", "{FF741B1E-EC9F-4154-8AFC-6A8045943136}"
+	ProjectSection(ProjectDependencies) = postProject
+		{929674ED-8AB0-49FB-B85E-D8ADCB45E845} = {929674ED-8AB0-49FB-B85E-D8ADCB45E845}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OperationTool", "OperationTool\OperationTool.csproj", "{B7C58B03-C78B-4246-AFD2-8B35C8A72B6F}"
 EndProject

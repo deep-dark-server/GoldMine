@@ -1,5 +1,5 @@
-﻿using StackExchange.Redis;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using GoldMine.DataModel;
 
 namespace GoldMine.ServerBase.Redis
 {
