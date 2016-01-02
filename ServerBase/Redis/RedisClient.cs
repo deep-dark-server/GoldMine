@@ -1,17 +1,22 @@
-﻿using System;
-using StackExchange.Redis;
+﻿using StackExchange.Redis;
+using System;
 
 namespace GoldMine.ServerBase.Redis
 {
+    /// <summary>
+    /// use with singleton recommended
+    /// </summary>
     public class RedisClient : IDisposable
     {
-        public IDatabase RedisDb { get; }
+        public IDatabase RedisDb { get; private set; }
+        protected bool IsConnected { get; private set; }
         private ConnectionMultiplexer Redis { get; }
 
         public RedisClient(string hostAndPort)
         {
             Redis = ConnectionMultiplexer.Connect(hostAndPort);
-            RedisDb = Redis.GetDatabase();
+            IsConnected = Redis.IsConnected;
+            RedisDb = IsConnected ? Redis.GetDatabase() : null;
         }
 
         private bool _disposed = false;
