@@ -1,6 +1,6 @@
 ﻿using StackExchange.Redis;
 
-namespace GoldMine.ServerBase.Redis
+namespace GoldMine.DataModel
 {
     /// <summary>
     /// Interface to make arbitrary class with parameterless ctor
