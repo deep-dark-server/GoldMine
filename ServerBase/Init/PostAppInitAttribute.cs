@@ -10,21 +10,16 @@ namespace GoldMine.ServerBase.Init
     [System.AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = false)]
     public sealed class PostAppInitAttribute : Attribute
     {
-        private string methodName;
-
-        public string MethodName
-        {
-            get { return methodName; }
-        }
+        public string MethodName { get; }
 
         public PostAppInitAttribute()
         {
-            methodName = "PostAppInit";
+            MethodName = "PostAppInit";
         }
 
         public PostAppInitAttribute(string methodName)
         {
-            this.methodName = methodName;
+            this.MethodName = methodName;
         }
     }
 }
