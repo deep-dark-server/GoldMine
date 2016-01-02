@@ -64,8 +64,8 @@ namespace GoldMine.ServerBase.Redis
         public async Task<bool> SetAsync<TValue>(string key, TValue value)
             where TValue : IRedisStorable, new()
         {
-            if (await DbSetAsync(key, value) && IsConnected)
-                return await RedisDb.StringSetAsync(key, value.ToRedisValue());
+            if (await DbSetAsync(key, value))
+                return !IsConnected || await RedisDb.StringSetAsync(key, value.ToRedisValue());
 
             return false;
         }
