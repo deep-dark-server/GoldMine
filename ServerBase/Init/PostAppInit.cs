@@ -3,35 +3,6 @@ using System.Reflection;
 
 namespace GoldMine.ServerBase.Init
 {
-    /// <summary>
-    /// Attribute to mark classes implementing static void PostAppInit() - if method not specified
-    /// or specified method name
-    /// to perform some post init process after program init
-    /// </summary>
-    [System.AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = false)]
-    public sealed class PostAppInitAttribute : Attribute
-    {
-        private string methodName;
-
-        public string MethodName
-        {
-            get
-            {
-                return methodName;
-            }
-        }
-
-        public PostAppInitAttribute()
-        {
-            methodName = "PostAppInit";
-        }
-
-        public PostAppInitAttribute(string methodName)
-        {
-            this.methodName = methodName;
-        }
-    }
-
     public static class PostAppInit
     {
         /// <summary>
@@ -46,7 +17,7 @@ namespace GoldMine.ServerBase.Init
                     var postAppInitAttr = type.GetCustomAttribute<PostAppInitAttribute>();
                     if (postAppInitAttr != null)
                     {
-                        type.GetMethod(postAppInitAttr.MethodName, 
+                        type.GetMethod(postAppInitAttr.MethodName,
                             BindingFlags.Public | BindingFlags.Static).Invoke(null, null);
                     }
                 }
