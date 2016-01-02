@@ -26,7 +26,7 @@ namespace GoldMine.ServerBase.Redis
                         (type.GetMembers()
                             .Where(member => member.GetCustomAttribute<DynamoDBHashKeyAttribute>() != null)).ToList();
                     if (members.Count > 1)
-                        throw new Exception(
+                        throw new TypeLoadException(
                             $"Type {type.Name} has multiple DynamoDbHashKeyAttribute, which is not allowed");
 
                     var hashKeyMember = members.FirstOrDefault();
@@ -59,7 +59,7 @@ namespace GoldMine.ServerBase.Redis
                 if (KeyFromStrDict.TryGetValue(valueType, out func))
                     return dynamoCtx.Load<TValue>(func(key));
 
-                throw new NotImplementedException(GetKeyForTypeFailMsg(valueType.Name));
+                throw new TypeAccessException(GetKeyForTypeFailMsg(valueType.Name));
             }
         }
 
@@ -81,7 +81,7 @@ namespace GoldMine.ServerBase.Redis
                 if (KeyFromStrDict.TryGetValue(valueType, out func))
                     return await dynamoCtx.LoadAsync<TValue>(func(key));
 
-                throw new NotImplementedException(GetKeyForTypeFailMsg(valueType.Name));
+                throw new TypeAccessException(GetKeyForTypeFailMsg(valueType.Name));
             }
         }
 
