@@ -15,8 +15,10 @@ namespace GoldMine.ServerBase.Redis
         public RedisClient(string hostAndPort)
         {
             Redis = ConnectionMultiplexer.Connect(hostAndPort);
-            IsConnected = Redis.IsConnected;
-            RedisDb = IsConnected ? Redis.GetDatabase() : null;
+            UpdateConnection();
+
+            Redis.ConnectionRestored += new EventHandler<ConnectionFailedEventArgs>(OnConnectionRestored);
+            Redis.ConnectionFailed += new EventHandler<ConnectionFailedEventArgs>(OnConnectionFailed);
         }
 
         private bool _disposed = false;
@@ -40,6 +42,24 @@ namespace GoldMine.ServerBase.Redis
         ~RedisClient()
         {
             Dispose(false);
+        }
+
+        private void UpdateConnection()
+        {
+            IsConnected = Redis.IsConnected;
+            RedisDb = IsConnected ? Redis.GetDatabase() : null;
+        }
+
+        private void OnConnectionRestored(object obj, ConnectionFailedEventArgs args)
+        {
+            // TODO LOGGING
+            UpdateConnection();
+        }
+
+        private void OnConnectionFailed(object obj, ConnectionFailedEventArgs args)
+        {
+            // TODO LOGGING
+            UpdateConnection();
         }
     }
 }
