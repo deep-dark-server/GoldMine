@@ -14,7 +14,7 @@ namespace GoldMine.ServerBase.Redis
     {
         protected delegate dynamic GetKeyFromString(string strKey);
 
-        protected static Dictionary<Type, GetKeyFromString> KeyFromStrDict { get; set; }
+        protected static Dictionary<Type, GetKeyFromString> KeyFromStrDict { get; private set; }
 
         protected RedisClientWithDbSync(string hostAndPort)
             : base(hostAndPort)
