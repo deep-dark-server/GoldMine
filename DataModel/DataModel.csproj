@@ -62,7 +62,6 @@
     <Compile Include="Response\Error.cs" />
     <Compile Include="Response\Result.cs" />
     <Compile Include="User.cs" />
-    <Compile Include="Attribute\UseStringKeyAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
