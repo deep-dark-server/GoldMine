@@ -55,12 +55,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attribute\CanGetKeyFromStringAttribute.cs" />
     <Compile Include="IRedisStorable.cs" />
     <Compile Include="Request\Register.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Response\Error.cs" />
     <Compile Include="Response\Result.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="Attribute\UseStringKeyAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
