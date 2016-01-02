@@ -8,7 +8,7 @@ namespace GoldMine.ServerBase.Redis
     /// </summary>
     public interface IRedisStorable
     {
-        void SetValueFromRedisValue(RedisValue value);
+        void LoadFrom(RedisValue value);
 
         RedisValue ToRedisValue();
     }

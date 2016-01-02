@@ -43,7 +43,7 @@ namespace GoldMine.ServerBase.Redis
             if (!valueFromRedis.IsNull)
             {
                 var ret = new TValue();
-                ret.SetValueFromRedisValue(valueFromRedis);
+                ret.LoadFrom(valueFromRedis);
                 return ret;
             }
 
@@ -63,7 +63,7 @@ namespace GoldMine.ServerBase.Redis
             if (!valueFromRedis.IsNull)
             {
                 var ret = new TValue();
-                ret.SetValueFromRedisValue(valueFromRedis);
+                ret.LoadFrom(valueFromRedis);
                 return ret;
             }
 
