@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GoldMine.ServerBase.Redis
 {
-    [PostAppInit]
+    [PostAppInit(ProcessOrder = 1)]
     public class RedisClientWithDynamoDbSync : RedisClientWithDbSync
     {
         public RedisClientWithDynamoDbSync(string hostAndPort)
@@ -15,7 +15,7 @@ namespace GoldMine.ServerBase.Redis
         {
         }
 
-        public static void PostAppInit()
+        public new static void PostAppInit()
         {
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
