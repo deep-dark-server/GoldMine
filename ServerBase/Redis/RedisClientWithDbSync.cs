@@ -15,7 +15,6 @@ namespace GoldMine.ServerBase.Redis
         protected delegate dynamic GetKeyFromString(string strKey);
 
         protected static Dictionary<Type, GetKeyFromString> KeyFromStrDict { get; set; }
-        protected static HashSet<Type> TypesWithStringKeySet { get; set; }
 
         protected RedisClientWithDbSync(string hostAndPort)
             : base(hostAndPort)
@@ -24,19 +23,12 @@ namespace GoldMine.ServerBase.Redis
 
         public static void PostAppInit()
         {
-            TypesWithStringKeySet = new HashSet<Type>();
             KeyFromStrDict = new Dictionary<Type, GetKeyFromString>();
+            RegisterGetKeyFuncForPrimitiveTypes();
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
                 foreach (var type in assembly.GetTypes())
                 {
-                    var useStringKeyAttr = type.GetCustomAttribute<UseStringKeyAttribute>();
-                    if (useStringKeyAttr != null)
-                    {
-                        TypesWithStringKeySet.Add(type);
-                        continue;
-                    }
-
                     var getKeyFromStringAttr = type.GetCustomAttribute<CanGetKeyFromStringAttribute>();
                     if (getKeyFromStringAttr == null)
                         continue;
