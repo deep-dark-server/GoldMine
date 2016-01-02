@@ -7,12 +7,13 @@ namespace GoldMine.ServerBase.Redis
 {
     public abstract partial class RedisClientWithDbSync
     {
-<# string[] types = {"short", "int", "long", "float", "double"}; #>
+<# string[] types = {"byte", "short", "int", "long", "float", "double"}; #>
         private static void RegisterGetKeyFuncForPrimitiveTypes()
         {
 <# foreach (var type in types) { #>
             KeyFromStrDict.Add(typeof (<#= type #>), keyStr => <#= type #>.Parse(keyStr));
 <# } #>
+			KeyFromStrDict.Add(typeof (string), keyStr => keyStr);
         }
     }
 }
