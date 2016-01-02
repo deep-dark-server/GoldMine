@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DynamoDBClient.cs" />
+    <Compile Include="Redis\IRedisStorable.cs" />
     <Compile Include="Redis\RedisClient.cs" />
     <Compile Include="Redis\RedisClientWithDbSync.cs" />
     <Compile Include="Settings\DBConnect.Designer.cs">

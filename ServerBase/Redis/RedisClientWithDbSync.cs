@@ -80,11 +80,4 @@ namespace GoldMine.ServerBase.Redis
             return valueFromDb;
         }
     }
-
-    public interface IRedisStorable
-    {
-        void SetValueFromRedisValue(RedisValue value);
-
-        RedisValue ToRedisValue();
-    }
 }
