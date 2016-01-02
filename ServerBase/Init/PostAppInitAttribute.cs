@@ -7,10 +7,15 @@ namespace GoldMine.ServerBase.Init
     /// or specified method name
     /// to perform some post init process after program init
     /// </summary>
-    [System.AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = false)]
+    [System.AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
     public sealed class PostAppInitAttribute : Attribute
     {
         public string MethodName { get; }
+
+        /// <summary>
+        /// MethodName of class with lower order value is invoked first(higher priority)
+        /// </summary>
+        public int ProcessOrder { get; set; } = 0;
 
         public PostAppInitAttribute()
         {

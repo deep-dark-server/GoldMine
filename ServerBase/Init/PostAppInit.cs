@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 
 namespace GoldMine.ServerBase.Init
@@ -10,18 +11,16 @@ namespace GoldMine.ServerBase.Init
         /// </summary>
         public static void Do()
         {
-            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
-            {
-                foreach (var type in assembly.GetTypes())
-                {
-                    var postAppInitAttr = type.GetCustomAttribute<PostAppInitAttribute>();
-                    if (postAppInitAttr != null)
-                    {
-                        type.GetMethod(postAppInitAttr.MethodName,
-                            BindingFlags.Public | BindingFlags.Static).Invoke(null, null);
-                    }
-                }
-            }
+            var types = from assembly in AppDomain.CurrentDomain.GetAssemblies()
+                        from type in assembly.GetTypes()
+                        let postAppInitAttr = type.GetCustomAttribute<PostAppInitAttribute>()
+                        where postAppInitAttr != null
+                        orderby postAppInitAttr.ProcessOrder
+                        select type;
+
+            foreach (var type in types)
+                type.GetMethod(type.GetCustomAttribute<PostAppInitAttribute>().MethodName,
+                    BindingFlags.Public | BindingFlags.Static).Invoke(null, null);
         }
     }
 }
