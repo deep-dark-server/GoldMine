@@ -21,11 +21,11 @@ namespace GoldMine.ServerBase.Redis
             Redis = ConnectionMultiplexer.Connect(hostAndPort);
             UpdateConnection();
 
-            Redis.ConnectionRestored += new EventHandler<ConnectionFailedEventArgs>(OnConnectionRestored);
-            Redis.ConnectionFailed += new EventHandler<ConnectionFailedEventArgs>(OnConnectionFailed);
+            Redis.ConnectionRestored += OnConnectionRestored;
+            Redis.ConnectionFailed += OnConnectionFailed;
         }
 
-        private bool _disposed = false;
+        private bool _disposed;
 
         public void Dispose()
         {
