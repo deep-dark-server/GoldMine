@@ -9,7 +9,7 @@ using System;
 
 namespace GoldMine.MainServer
 {
-    public class ServiceLogic : IConnectionTest, IService
+    public partial class ServiceLogic : IConnectionTest, IService
     {
         public string HelloWorld()
         {
@@ -28,7 +28,10 @@ namespace GoldMine.MainServer
             {
                 var userRegistered = ctx.Load<User>(request.userId);
                 if (userRegistered == null)
-                    throw new UnauthorizedUserException("Register host fail: Unauthorized User(ID Not Issued)");
+                    throw new UnauthorizedUserException(RegisterException.GetUnauthorizedMessage("ID Not Issued"));
+
+                if (userRegistered.accesskey != request.AccessKey)
+                    throw new UnauthorizedAccessException(RegisterException.GetUnauthorizedMessage("Access Key Incorrect"));
 
                 var user = new User()
                 {

@@ -75,6 +75,7 @@
     <Compile Include="GoldMineWebService.cs" />
     <Compile Include="Interface\IService.cs" />
     <Compile Include="ServiceLogic.cs" />
+    <Compile Include="ServiceLogic_ExceptionMessages.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

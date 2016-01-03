@@ -16,6 +16,7 @@ namespace GoldMine.DataModel
 
         public string server_host { get; set; }
         public ProtocolType protocol { get; set; }
+        public Guid accesskey { get; set; }
 
         public void LoadFrom(RedisValue value)
         {
@@ -27,6 +28,7 @@ namespace GoldMine.DataModel
                 id = deserializedObj.id;
                 server_host = deserializedObj.server_host;
                 protocol = deserializedObj.protocol;
+                accesskey = deserializedObj.accesskey;
             }
         }
 

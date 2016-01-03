@@ -1,5 +1,8 @@
-﻿namespace GoldMine.DataModel.Request
+﻿using System;
+
+namespace GoldMine.DataModel.Request
 {
+    [Serializable]
     public enum ProtocolType : byte
     {
         Http = 0,
@@ -11,5 +14,8 @@
 	{
 		public short userId;
 		public ProtocolType protocol;
+	    public string accesskey;
+
+	    public Guid AccessKey => Guid.Parse(accesskey);
 	}
 }
