@@ -26,17 +26,17 @@ namespace GoldMine.MainServer
 
             using (var ctx = new DynamoDBContext(DynamoDBClient.Instance))
             {
-                User userRegistered = ctx.Load<User>(request.userId);
+                var userRegistered = ctx.Load<User>(request.userId);
                 if (userRegistered == null)
                     throw new UnauthorizedUserException("Register host fail: Unauthorized User(ID Not Issued)");
 
-                User user = new User()
+                var user = new User()
                 {
                     id = request.userId,
                     server_host = hostAddress,
                     protocol = request.protocol
                 };
-                ctx.Save(user);
+                DynamoDbClientWithCache.Instance.Set(user.id.ToString(), user);
             }
 
             return new ResponseResult<bool>(true);
