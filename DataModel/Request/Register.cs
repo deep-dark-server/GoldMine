@@ -10,7 +10,7 @@ namespace GoldMine.DataModel.Request
         Both
     }
 
-	public class RequestRegister
+	public class RequestRegister : Request
 	{
 		public short userId;
 		public ProtocolType protocol;

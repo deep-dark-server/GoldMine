@@ -57,10 +57,13 @@
   <ItemGroup>
     <Compile Include="Attribute\CanGetKeyFromStringAttribute.cs" />
     <Compile Include="IRedisStorable.cs" />
+    <Compile Include="Request\Issue.cs" />
     <Compile Include="Request\Register.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Request\_Request.cs" />
     <Compile Include="Response\Error.cs" />
     <Compile Include="Response\Result.cs" />
+    <Compile Include="Response\_Response.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>

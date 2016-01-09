@@ -2,7 +2,7 @@
 
 namespace GoldMine.DataModel.Response
 {
-    public class ResponseError
+    public class ResponseError : Response
     {
         public ResponseError()
         {
