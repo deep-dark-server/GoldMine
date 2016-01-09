@@ -6,6 +6,7 @@ using GoldMine.MainServer.Interface;
 using GoldMine.ServerBase;
 using GoldMine.ServerBase.Exceptions;
 using System;
+using GoldMine.ServerBase.Util;
 
 namespace GoldMine.MainServer
 {
@@ -47,6 +48,7 @@ namespace GoldMine.MainServer
 
         public void OnException(Exception ex)
         {
+            ex.WriteLog();
         }
     }
 }
