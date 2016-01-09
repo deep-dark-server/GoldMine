@@ -42,6 +42,8 @@ namespace GoldMine.MainServer
             var pickedNumbers = new HashSet<int>();
             while (pickedNumbers.Count < n)
                 pickedNumbers.Add(PickOne());
+
+            return pickedNumbers;
         }
 
         private static void GeneratePrimenessArray(out bool[] pnArray)
