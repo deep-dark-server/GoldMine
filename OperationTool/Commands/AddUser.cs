@@ -41,7 +41,8 @@ namespace GoldMine.OperationTool.Commands
             {
                 User user = new User()
                 {
-                    id = newId
+                    id = newId,
+                    accesskey = Guid.NewGuid()
                 };
                 ctx.Save(user);
             }
