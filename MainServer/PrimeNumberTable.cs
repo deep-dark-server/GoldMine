@@ -32,7 +32,17 @@ namespace GoldMine.MainServer
 
         public static bool IsPrime(int i) => (i >= 2 && PrimeNumbers.Contains(i));
 
-        public static int PickOne() => (PrimeNumbers.ElementAt(Random.Next() % PrimeNumbers.Count));
+        public static int PickOne() => (PrimeNumbers.ElementAt(Random.Next(PrimeNumbers.Count)));
+
+        public static HashSet<int> PickN(int n)
+        {
+            if (n > PrimeNumbers.Count)
+                throw new ArgumentOutOfRangeException("n", "Cannot pick prime numbers exceeding total count of prime numbers <= int max");
+
+            var pickedNumbers = new HashSet<int>();
+            while (pickedNumbers.Count < n)
+                pickedNumbers.Add(PickOne());
+        }
 
         private static void GeneratePrimenessArray(out bool[] pnArray)
         {
