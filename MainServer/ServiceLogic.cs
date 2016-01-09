@@ -6,6 +6,7 @@ using GoldMine.MainServer.Interface;
 using GoldMine.ServerBase;
 using GoldMine.ServerBase.Exceptions;
 using System;
+using System.Linq;
 using GoldMine.ServerBase.Util;
 
 namespace GoldMine.MainServer
@@ -41,6 +42,12 @@ namespace GoldMine.MainServer
             DynamoDbClientWithCache.Instance.Set(user.id.ToString(), user);
 
             return new ResponseResult<bool>(true);
+        }
+
+        public ResponseResult<string> Issue(RequestIssue request)
+        {
+            var problem = PrimeNumberTable.PickN(3).Select(pn => (long) pn).Aggregate((lhs, rhs) => lhs*rhs);
+            return new ResponseResult<string>(problem.ToString());
         }
 
         public void OnException(Exception ex)
