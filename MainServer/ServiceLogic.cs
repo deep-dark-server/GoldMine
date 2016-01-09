@@ -25,23 +25,20 @@ namespace GoldMine.MainServer
             Console.WriteLine(hostAddress);
             Console.WriteLine("End Register");
 
-            using (var ctx = new DynamoDBContext(DynamoDBClient.Instance))
+            var userRegistered = DynamoDbClientWithCache.Instance.Get<User>(request.userId.ToString());
+            if (userRegistered == null)
+                throw new UnauthorizedUserException(RegisterException.GetUnauthorizedMessage("ID Not Issued"));
+
+            if (userRegistered.accesskey != request.AccessKey)
+                throw new UnauthorizedAccessException(RegisterException.GetUnauthorizedMessage("Access Key Incorrect"));
+
+            var user = new User()
             {
-                var userRegistered = ctx.Load<User>(request.userId);
-                if (userRegistered == null)
-                    throw new UnauthorizedUserException(RegisterException.GetUnauthorizedMessage("ID Not Issued"));
-
-                if (userRegistered.accesskey != request.AccessKey)
-                    throw new UnauthorizedAccessException(RegisterException.GetUnauthorizedMessage("Access Key Incorrect"));
-
-                var user = new User()
-                {
-                    id = request.userId,
-                    server_host = hostAddress,
-                    protocol = request.protocol
-                };
-                DynamoDbClientWithCache.Instance.Set(user.id.ToString(), user);
-            }
+                id = request.userId,
+                server_host = hostAddress,
+                protocol = request.protocol
+            };
+            DynamoDbClientWithCache.Instance.Set(user.id.ToString(), user);
 
             return new ResponseResult<bool>(true);
         }
