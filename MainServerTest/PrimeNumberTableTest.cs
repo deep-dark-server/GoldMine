@@ -1,4 +1,7 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Threading;
+using NUnit.Framework;
 
 namespace GoldMine.MainServer.Test
 {
@@ -27,6 +30,57 @@ namespace GoldMine.MainServer.Test
         public void IsPrime(int n)
         {
             Assert.AreEqual(true, PrimeNumberTable.IsPrime(n));
+        }
+
+        /// <summary>
+        /// Test should be performed with threadCount > 1
+        /// </summary>
+        /// <param name="threadCount"># of threads to perform test with</param>
+        [Test]
+        [TestCase(5)]
+        public void PickOneTest(int threadCount)
+        {
+            Assert.Greater(threadCount, 1);
+
+            var testBag = new ConcurrentBag<int>();
+            var threads = new List<Thread>();
+            for (var i = 0; i < threadCount; ++i)
+            {
+                // ReSharper disable once ObjectCreationAsStatement
+                // explicit thread generation needed for proper thread safety check
+                var thd = new Thread(() => { testBag.Add(PrimeNumberTable.PickOne()); });
+                thd.Start();
+                threads.Add(thd);
+            }
+
+            foreach (var thd in threads)
+                thd.Join();
+
+            int? itemBefore = null;
+            Assert.Greater(testBag.Count, 1);
+
+            while (!testBag.IsEmpty)
+            {
+                int tmp;
+                if (itemBefore == null)
+                {
+                    if (testBag.TryTake(out tmp))
+                        itemBefore = tmp;
+
+                    Assert.NotNull(itemBefore);
+                }
+
+                int? itemNow = null;
+                if (testBag.TryTake(out tmp))
+                    itemNow = tmp;
+                else
+                    return;
+
+                Assert.NotNull(itemNow);
+                Assert.AreNotEqual(itemNow, itemBefore);
+
+                itemBefore = itemNow;
+            }
         }
     }
 }
