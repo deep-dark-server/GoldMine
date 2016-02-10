@@ -6,13 +6,14 @@ using System.Linq;
 namespace GoldMine.MainServer
 {
     /// <summary>
-    /// Maintains List of prime numbers which is less than or equals to int.MAX
+    /// Maintains List of prime numbers which is less than or equals to Max
     /// Has some utility methods like PickRandom()
     /// </summary>
     [PostAppInit]
-    public class PrimeNumberTable
+    public static class PrimeNumberTable
     {
-        private static readonly HashSet<int> PrimeNumbers = new HashSet<int>();
+        private const int Max = 20000000;
+        private static readonly List<int> PrimeNumbers = new List<int>();
         private static readonly Random Random = new Random();
 
         public static void PostAppInit()
@@ -22,22 +23,17 @@ namespace GoldMine.MainServer
 
         static PrimeNumberTable()
         {
-            bool[] pnArray;
-            GeneratePrimenessArray(out pnArray);
-
-            for (var i = 2; i > int.MinValue; i++)
-                if (pnArray[i])
-                    PrimeNumbers.Add(i);
+            GeneratePrimeNumberSet();
         }
 
-        public static bool IsPrime(int i) => (i >= 2 && PrimeNumbers.Contains(i));
+        public static bool IsPrime(int i) => (i >= 2 && PrimeNumbers.BinarySearch(i) >= 0);
 
-        public static int PickOne() => (PrimeNumbers.ElementAt(Random.Next(PrimeNumbers.Count)));
+        public static int PickOne() => (PrimeNumbers[Random.Next(PrimeNumbers.Count)]);
 
-        public static HashSet<int> PickN(int n)
+        public static IEnumerable<int> PickN(int n)
         {
             if (n > PrimeNumbers.Count)
-                throw new ArgumentOutOfRangeException("n", "Cannot pick prime numbers exceeding total count of prime numbers <= int max");
+                throw new ArgumentOutOfRangeException(nameof(n), "Cannot pick prime numbers exceeding total count of prime numbers <= int max");
 
             var pickedNumbers = new HashSet<int>();
             while (pickedNumbers.Count < n)
@@ -46,25 +42,26 @@ namespace GoldMine.MainServer
             return pickedNumbers;
         }
 
-        private static void GeneratePrimenessArray(out bool[] pnArray)
+        private static void GeneratePrimeNumberSet()
         {
-            // Algorithm hint from https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes
-            var primeness = new bool[int.MaxValue + 1U];
-            primeness[0] = false;
-            primeness[1] = false;
-            for (var i = 2; i < int.MaxValue; ++i)
-                primeness[2] = true;
-            primeness[int.MaxValue] = true;
+            var nonPrimeNumbers = new HashSet<int>();
 
-            for (var i = 2; i <= (int)Math.Sqrt(int.MaxValue); i++)
+            // Algorithm hint from https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes
+            for (var i = 2; i <= (int)Math.Sqrt(Max); i++)
             {
-                if (primeness[i] != true)
+                if (nonPrimeNumbers.Contains(i))
                     continue;
 
-                for (var j = i * i; j > int.MinValue; j++)
-                    primeness[j] = false;
+                for (var j = i * i; j <= Max; j += i)
+                    nonPrimeNumbers.Add(j);
             }
-            pnArray = primeness;
+
+            for (var i = 2; i < Max; i++)
+                if (!nonPrimeNumbers.Contains(i))
+                    PrimeNumbers.Add(i);
         }
+
+        public static bool IsPrimeNumberSetValid =>
+            !(from pn in PrimeNumbers.AsParallel() from n in Enumerable.Range(2, pn - 2) where pn % n == 0 select pn).Any();
     }
 }
