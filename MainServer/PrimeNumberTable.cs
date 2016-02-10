@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace GoldMine.MainServer
 {
@@ -18,7 +19,8 @@ namespace GoldMine.MainServer
         [ThreadStatic]
         private static Random _random;
 
-        private static Random Random => _random ?? (_random = new Random());
+        private static Random Random => 
+            _random ?? (_random = new Random(Environment.TickCount * Thread.CurrentThread.ManagedThreadId));
 
         public static void PostAppInit()
         {
