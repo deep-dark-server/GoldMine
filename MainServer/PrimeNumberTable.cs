@@ -14,7 +14,11 @@ namespace GoldMine.MainServer
     {
         private const int Max = 20000000;
         private static readonly List<int> PrimeNumbers = new List<int>();
-        private static readonly Random Random = new Random();
+
+        [ThreadStatic]
+        private static Random _random;
+
+        private static Random Random => _random ?? (_random = new Random());
 
         public static void PostAppInit()
         {
