@@ -69,6 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExceptionMessage\RegisterExceptionMessage.cs" />
     <Compile Include="PrimeNumberTable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
@@ -76,7 +77,6 @@
     <Compile Include="GoldMineWebService.cs" />
     <Compile Include="Interface\IService.cs" />
     <Compile Include="ServiceLogic.cs" />
-    <Compile Include="ServiceLogic_ExceptionMessages.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
@@ -96,6 +96,7 @@
   <ItemGroup>
     <Analyzer Include="..\packages\AWSSDK.DynamoDBv2.3.1.1.3\analyzers\dotnet\cs\AWSSDK.DynamoDBv2.CodeAnalysis.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

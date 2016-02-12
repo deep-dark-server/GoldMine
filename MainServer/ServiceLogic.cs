@@ -1,17 +1,17 @@
-﻿using Amazon.DynamoDBv2.DataModel;
-using GoldMine.DataModel;
+﻿using GoldMine.DataModel;
 using GoldMine.DataModel.Request;
 using GoldMine.DataModel.Response;
+using GoldMine.MainServer.ExceptionMessage;
 using GoldMine.MainServer.Interface;
 using GoldMine.ServerBase;
 using GoldMine.ServerBase.Exceptions;
+using GoldMine.ServerBase.Util;
 using System;
 using System.Linq;
-using GoldMine.ServerBase.Util;
 
 namespace GoldMine.MainServer
 {
-    public partial class ServiceLogic : IConnectionTest, IService
+    public class ServiceLogic : IConnectionTest, IService
     {
         public string HelloWorld()
         {
@@ -28,10 +28,10 @@ namespace GoldMine.MainServer
 
             var userRegistered = DynamoDbClientWithCache.Instance.Get<User>(request.userId.ToString());
             if (userRegistered == null)
-                throw new UnauthorizedUserException(RegisterException.GetUnauthorizedMessage("ID Not Issued"));
+                throw new UnauthorizedUserException(RegisterExceptionMessage.ForUnauthorized("ID Not Issued"));
 
             if (userRegistered.accesskey != request.AccessKey)
-                throw new UnauthorizedAccessException(RegisterException.GetUnauthorizedMessage("Access Key Incorrect"));
+                throw new UnauthorizedAccessException(RegisterExceptionMessage.ForUnauthorized("Access Key Incorrect"));
 
             var user = new User()
             {
@@ -46,7 +46,7 @@ namespace GoldMine.MainServer
 
         public ResponseResult<decimal> Issue(RequestIssue request)
         {
-            var problem = PrimeNumberTable.PickN(3).Select(pn => (decimal) pn).Aggregate((lhs, rhs) => lhs*rhs);
+            var problem = PrimeNumberTable.PickN(3).Select(pn => (decimal)pn).Aggregate((lhs, rhs) => lhs * rhs);
             return new ResponseResult<decimal>(problem);
         }
 
