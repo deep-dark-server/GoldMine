@@ -44,10 +44,10 @@ namespace GoldMine.MainServer
             return new ResponseResult<bool>(true);
         }
 
-        public ResponseResult<string> Issue(RequestIssue request)
+        public ResponseResult<decimal> Issue(RequestIssue request)
         {
-            var problem = PrimeNumberTable.PickN(3).Select(pn => (long) pn).Aggregate((lhs, rhs) => lhs*rhs);
-            return new ResponseResult<string>(problem.ToString());
+            var problem = PrimeNumberTable.PickN(3).Select(pn => (decimal) pn).Aggregate((lhs, rhs) => lhs*rhs);
+            return new ResponseResult<decimal>(problem);
         }
 
         public void OnException(Exception ex)
