@@ -55,7 +55,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attribute\CanGetKeyFromStringAttribute.cs" />
     <Compile Include="IRedisStorable.cs" />
     <Compile Include="Request\Impl\Issue.cs" />
     <Compile Include="Request\Impl\Register.cs" />

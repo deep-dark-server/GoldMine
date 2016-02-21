@@ -1,76 +1,43 @@
 ﻿using GoldMine.DataModel;
-using GoldMine.DataModel.Attribute;
-using GoldMine.ServerBase.Init;
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Reflection;
+using GoldMine.ServerBase.Redis.StoreKey;
 using System.Threading.Tasks;
 
 namespace GoldMine.ServerBase.Redis
 {
-    [PostAppInit]
-    public abstract partial class RedisClientWithDbSync : RedisClient
+    public abstract class RedisClientWithDbSync : RedisClient
     {
-        protected delegate dynamic GetKeyFromString(string strKey);
-
-        protected static Dictionary<Type, GetKeyFromString> KeyFromStrDict { get; private set; }
-
         protected RedisClientWithDbSync(string hostAndPort)
             : base(hostAndPort)
         {
         }
 
-        public static void PostAppInit()
-        {
-            KeyFromStrDict = new Dictionary<Type, GetKeyFromString>();
-            RegisterGetKeyFuncForPrimitiveTypes();
-            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
-            {
-                foreach (var type in assembly.GetTypes())
-                {
-                    var getKeyFromStringAttr = type.GetCustomAttribute<CanGetKeyFromStringAttribute>();
-                    if (getKeyFromStringAttr == null)
-                        continue;
-
-                    var keyArg = Expression.Parameter(typeof(string), "strKey");
-                    var getKeyFunc = Expression.Lambda<GetKeyFromString>(
-                        Expression.Call(
-                            type.GetMethod(getKeyFromStringAttr.MethodName,
-                                BindingFlags.Public | BindingFlags.Static), keyArg),
-                        keyArg).Compile();
-                    KeyFromStrDict.Add(type, getKeyFunc);
-                }
-            }
-        }
-
-        protected abstract bool DbSet<TValue>(string key, TValue value)
+        protected abstract bool DbSet<TValue>(TValue value)
             where TValue : IRedisStorable, new();
 
-        protected abstract TValue DbGet<TValue>(string key);
+        protected abstract TValue DbGet<TKey, TValue>(RedisStoreKey<TKey> key);
 
-        protected abstract Task<bool> DbSetAsync<TValue>(string key, TValue value)
+        protected abstract Task<bool> DbSetAsync<TValue>(TValue value)
             where TValue : IRedisStorable, new();
 
-        protected abstract Task<TValue> DbGetAsync<TValue>(string key);
+        protected abstract Task<TValue> DbGetAsync<TKey, TValue>(RedisStoreKey<TKey> key);
 
-        public void Set<TValue>(string key, TValue value)
+        public void Set<TKey, TValue>(RedisStoreKey<TKey> key, TValue value)
             where TValue : IRedisStorable, new()
         {
-            if (DbSet(key, value) && IsConnected)
+            if (DbSet(value) && IsConnected)
                 RedisDb.StringSet(key, value.ToRedisValue());
         }
 
-        public async Task<bool> SetAsync<TValue>(string key, TValue value)
+        public async Task<bool> SetAsync<TKey, TValue>(RedisStoreKey<TKey> key, TValue value)
             where TValue : IRedisStorable, new()
         {
-            if (await DbSetAsync(key, value))
+            if (await DbSetAsync(value))
                 return !IsConnected || await RedisDb.StringSetAsync(key, value.ToRedisValue());
 
             return false;
         }
 
-        public TValue Get<TValue>(string key)
+        public TValue Get<TKey, TValue>(RedisStoreKey<TKey> key)
             where TValue : IRedisStorable, new()
         {
             if (IsConnected)
@@ -84,7 +51,7 @@ namespace GoldMine.ServerBase.Redis
                 }
             }
 
-            var valueFromDb = DbGet<TValue>(key);
+            var valueFromDb = DbGet<TKey, TValue>(key);
             if (valueFromDb == null)
                 return default(TValue);
 
@@ -96,7 +63,7 @@ namespace GoldMine.ServerBase.Redis
             return valueFromDb;
         }
 
-        public async Task<TValue> GetAsync<TValue>(string key)
+        public async Task<TValue> GetAsync<TKey, TValue>(RedisStoreKey<TKey> key)
             where TValue : IRedisStorable, new()
         {
             if (IsConnected)
@@ -110,7 +77,7 @@ namespace GoldMine.ServerBase.Redis
                 }
             }
 
-            var valueFromDb = await DbGetAsync<TValue>(key);
+            var valueFromDb = await DbGetAsync<TKey, TValue>(key);
             if (valueFromDb == null)
                 return default(TValue);
 

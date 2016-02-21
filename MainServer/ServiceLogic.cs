@@ -26,7 +26,7 @@ namespace GoldMine.MainServer
             Console.WriteLine(hostAddress);
             Console.WriteLine("End Register");
 
-            var userRegistered = DynamoDbClientWithCache.Instance.Get<User>(request.userId.ToString());
+            var userRegistered = DynamoDbClientWithCache.Instance.Get<short, User>(request.userId);
             if (userRegistered == null)
                 throw new UnauthorizedUserException(RegisterExceptionMessage.ForUnauthorized("ID Not Issued"));
 
@@ -39,7 +39,7 @@ namespace GoldMine.MainServer
                 server_host = hostAddress,
                 protocol = request.protocol
             };
-            DynamoDbClientWithCache.Instance.Set(user.id.ToString(), user);
+            DynamoDbClientWithCache.Instance.Set<short, User>(user.id, user);
 
             return new ResponseResult<bool>(true);
         }
