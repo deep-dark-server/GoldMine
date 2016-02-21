@@ -1,9 +1,9 @@
 ﻿namespace GoldMine.DataModel.Request
 {
     /// <summary>
-    /// base class for request to server
+    /// mark class as a request to server
     /// </summary>
-    public abstract class Request
+    public interface IRequest
     {
     }
 }

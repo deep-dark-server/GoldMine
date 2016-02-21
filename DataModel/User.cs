@@ -4,6 +4,7 @@ using StackExchange.Redis;
 using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using GoldMine.DataModel.Request.Impl;
 
 namespace GoldMine.DataModel
 {

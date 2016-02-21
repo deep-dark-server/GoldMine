@@ -1,7 +1,7 @@
 ﻿namespace GoldMine.DataModel.Response
 {
     /// <summary>
-    /// base class for response from server
+    /// mark class as a response from server
     /// </summary>
     public abstract class Response
     {

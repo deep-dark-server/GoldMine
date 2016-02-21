@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GoldMine.DataModel.Request
+namespace GoldMine.DataModel.Request.Impl
 {
     [Serializable]
     public enum ProtocolType : byte
@@ -10,7 +10,7 @@ namespace GoldMine.DataModel.Request
         Both
     }
 
-	public class RequestRegister : Request
+	public class RequestRegister : IRequest
 	{
 		public short userId;
 		public ProtocolType protocol;

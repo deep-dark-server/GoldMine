@@ -1,12 +1,12 @@
 ﻿using System.Net;
 
-namespace GoldMine.DataModel.Response
+namespace GoldMine.DataModel.Response.Impl
 {
     public class ResponseError : Response
     {
         public ResponseError()
         {
-            this.error = (int)HttpStatusCode.InternalServerError;
+            error = (int)HttpStatusCode.InternalServerError;
         }
 
         public ResponseError(int error)

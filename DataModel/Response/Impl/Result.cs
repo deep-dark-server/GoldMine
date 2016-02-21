@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization;
-
-namespace GoldMine.DataModel.Response
+﻿namespace GoldMine.DataModel.Response.Impl
 {
     public class ResponseResult<ValueT> : Response
     {

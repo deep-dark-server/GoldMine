@@ -1,6 +1,6 @@
 ﻿using GoldMine.DataModel;
-using GoldMine.DataModel.Request;
-using GoldMine.DataModel.Response;
+using GoldMine.DataModel.Request.Impl;
+using GoldMine.DataModel.Response.Impl;
 using GoldMine.MainServer.ExceptionMessage;
 using GoldMine.MainServer.Interface;
 using GoldMine.ServerBase;

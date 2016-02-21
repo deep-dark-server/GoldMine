@@ -1,5 +1,7 @@
 ﻿using GoldMine.DataModel.Request;
+using GoldMine.DataModel.Request.Impl;
 using GoldMine.DataModel.Response;
+using GoldMine.DataModel.Response.Impl;
 
 namespace GoldMine.MainServer.Interface
 {

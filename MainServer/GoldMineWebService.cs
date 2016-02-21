@@ -1,5 +1,5 @@
-﻿using GoldMine.DataModel.Request;
-using GoldMine.DataModel.Response;
+﻿using GoldMine.DataModel.Request.Impl;
+using GoldMine.DataModel.Response.Impl;
 using GoldMine.ServerBase.Util;
 using Nancy;
 using Nancy.Bootstrapper;
