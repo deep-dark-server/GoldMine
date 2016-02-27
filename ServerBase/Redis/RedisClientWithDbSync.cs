@@ -1,6 +1,9 @@
-﻿using GoldMine.DataModel;
+﻿using System;
+using System.Runtime.InteropServices;
+using GoldMine.DataModel;
 using GoldMine.ServerBase.Redis.StoreKey;
 using System.Threading.Tasks;
+using StackExchange.Redis;
 
 namespace GoldMine.ServerBase.Redis
 {
@@ -14,7 +17,7 @@ namespace GoldMine.ServerBase.Redis
         protected abstract bool DbSet<TValue>(TValue value)
             where TValue : IRedisStorable, new();
 
-        protected abstract TValue DbGet<TKey, TValue>(RedisStoreKey<TKey> key);
+        protected abstract TValue DbGet<TValue>();
 
         protected abstract Task<bool> DbSetAsync<TValue>(TValue value)
             where TValue : IRedisStorable, new();
@@ -37,12 +40,17 @@ namespace GoldMine.ServerBase.Redis
             return false;
         }
 
-        public TValue Get<TKey, TValue>(RedisStoreKey<TKey> key)
+        public RedisStoreKey<TKey> Key<TKey>(TKey key)
+        {
+            return key;
+        }
+
+        public TValue Get<TValue>(IRedisKey key)
             where TValue : IRedisStorable, new()
         {
             if (IsConnected)
             {
-                var valueFromRedis = RedisDb.StringGet(key);
+                var valueFromRedis = RedisDb.StringGet(key.RedisKey);
                 if (!valueFromRedis.IsNull)
                 {
                     var ret = new TValue();
@@ -51,7 +59,7 @@ namespace GoldMine.ServerBase.Redis
                 }
             }
 
-            var valueFromDb = DbGet<TKey, TValue>(key);
+            var valueFromDb = DbGet<TValue>();
             if (valueFromDb == null)
                 return default(TValue);
 
@@ -59,7 +67,7 @@ namespace GoldMine.ServerBase.Redis
                 return valueFromDb;
 
             var valueForRedis = valueFromDb.ToRedisValue();
-            RedisDb.StringSet(key, valueForRedis);
+            RedisDb.StringSet(key.RedisKey, valueForRedis);
             return valueFromDb;
         }
 

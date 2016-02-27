@@ -26,7 +26,11 @@ namespace GoldMine.MainServer
             Console.WriteLine(hostAddress);
             Console.WriteLine("End Register");
 
-            var userRegistered = DynamoDbClientWithCache.Instance.Get<short, User>(request.userId);
+            var inst = DynamoDbClientWithCache.Instance;
+            /*
+            DynamoDbClientWithCache.Instance.FromKey(request.userId).Get<User>();
+            */
+            var userRegistered = inst.Get<User>(inst.Key(request.userId));
             if (userRegistered == null)
                 throw new UnauthorizedUserException(RegisterExceptionMessage.ForUnauthorized("ID Not Issued"));
 

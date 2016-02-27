@@ -1,9 +1,10 @@
-﻿using GoldMine.ServerBase.Redis.StoreKey.RedisKeyFactory;
+﻿using System.Dynamic;
+using GoldMine.ServerBase.Redis.StoreKey.RedisKeyFactory;
 using StackExchange.Redis;
 
 namespace GoldMine.ServerBase.Redis.StoreKey
 {
-    public class RedisStoreKey<T>
+    public class RedisStoreKey<T> : IRedisKey
     {
         public T Data { get; }
 
@@ -26,5 +27,7 @@ namespace GoldMine.ServerBase.Redis.StoreKey
         {
             return new RedisStoreKey<T>(data);
         }
+
+        public RedisKey RedisKey => Factory.Make(Data);
     }
 }
